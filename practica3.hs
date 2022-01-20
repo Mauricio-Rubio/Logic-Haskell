@@ -42,7 +42,7 @@ equivalencia (p :|: q) = (p :|: q)
 equivalencia (p :&: q) = (p :&: q)
 -------------------------------------------------------------
 
-
+-------------------------------------------------------------
 interpretacionVariable :: Var -> [(Var,Bool)] -> Bool
 interpretacionVariable v ((x,b) : xs) = if v == 
     x then b else interpretacionVariable v xs
@@ -66,7 +66,8 @@ implicacion x y = True
 dimplicacion :: Bool -> Bool -> Bool 
 dimplicacion True True = True
 dimplicacion x y = False
-
+-------------------------------------------------------------
+-- Ejercicio 4.- Interpretación
 interpretacion :: Formula -> [(Var,Bool)] -> Bool
 interpretacion (Prop v) xs = interpretacionVariable v xs
 interpretacion (Neg f) xs = negacion (interpretacion f xs)
@@ -74,6 +75,9 @@ interpretacion (p :&: q) xs = conjuncion (interpretacion p xs) (interpretacion q
 interpretacion (p :|: q) xs = disyuncion (interpretacion p xs) (interpretacion q xs)
 interpretacion (p :=>: q) xs = implicacion (interpretacion p xs) (interpretacion q xs)
 interpretacion (p :=>: q) xs = dimplicacion (interpretacion p xs) (interpretacion q xs)
+-------------------------------------------------------------
+
+
 --interpretacion
 
 --Funcion para concatenar un valor de tipo A a una lista de tipo A

@@ -4,5 +4,5 @@ tablaVerdad [A,B] = [[(A, True), (B,True)], [(A,False), (B,True)]]
 agregarValor (B,True) [[(A,True)],]
 
 tautologia p :|: neg p = True
-interpretacion (p :|: neg p) [(p,True)] =True
+interpretacion (p :|: Neg (p)) [(p,True)] =True
 interpretacion (p :|: neg p) [(p,False)] =True

@@ -1,0 +1,3 @@
+interpretacionVariable :: Var -> [(Var,Bool)] -> Bool
+interpretacionVariable v ((x,b) : xs) = if v == 
+    x then b else interpretacionVariable v xs

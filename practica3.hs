@@ -22,7 +22,7 @@ negar (p :<=>: q) = negar ((p :=>: q) :&: (q :=>: p))
 -------------------------------------------------------------
 
 -------------------------------------------------------------
--- Ejercicio 2.-Variables de la Fórmula
+-- Ejercicio 2.-Variables de la Fórmula (Falta quitar variables repetidas)
 variables :: Formula -> [Var]
 variables (Prop a) = [a]
 variables (p :&: q) = (variables p) ++ (variables q)
@@ -32,10 +32,15 @@ variables (p :<=>: q) = (variables p) ++ (variables q)
 -------------------------------------------------------------
 
 -------------------------------------------------------------
+-- Ejercicio 3.-Equivalencia
 equivalencia :: Formula -> Formula
-equivalencia (Neg p) = negar p 
-equivalencia (p :=>: q) = (negar (equivalencia p)) 
-    :|: (equivalencia q)
+equivalencia (Neg p) = negar p
+equivalencia (Prop a) = (Prop a)
+equivalencia (p :=>: q) = (equivalencia p) :&: (negar (equivalencia q))
+equivalencia (p :<=>: q) = (equivalencia (p :=>: q)) :&: (equivalencia (q :=>: p)) 
+equivalencia (p :|: q) = (p :|: q)
+equivalencia (p :&: q) = (p :&: q)
+-------------------------------------------------------------
 
 
 interpretacionVariable :: Var -> [(Var,Bool)] -> Bool

@@ -23,12 +23,12 @@ negar (p :<=>: q) = negar ((p :=>: q) :&: (q :=>: p))
 
 -------------------------------------------------------------
 -- Ejercicio 2.-Variables de la Fórmula (Falta quitar variables repetidas)
-variables :: Formula -> [Var]
-variables (Prop a) = [a]
-variables (p :&: q) = (variables p) ++ (variables q)
-variables (p :|: q) = (variables p) ++ (variables q)
-variables (p :=>: q) = (variables p) ++ (variables q)
-variables (p :<=>: q) = (variables p) ++ (variables q)
+--variables :: Formula -> [Var]
+--variables (Prop a) = [a]
+--variables (p :&: q) = (variables p) ++ (variables q)
+--variables (p :|: q) = (variables p) ++ (variables q)
+--variables (p :=>: q) = (variables p) ++ (variables q)
+--variables (p :<=>: q) = (variables p) ++ (variables q)
 -------------------------------------------------------------
 
 -------------------------------------------------------------
@@ -76,23 +76,16 @@ interpretacion (p :|: q) xs = disyuncion (interpretacion p xs) (interpretacion q
 interpretacion (p :=>: q) xs = implicacion (interpretacion p xs) (interpretacion q xs)
 interpretacion (p :=>: q) xs = dimplicacion (interpretacion p xs) (interpretacion q xs)
 -------------------------------------------------------------
-
-
---interpretacion
-
---Funcion para concatenar un valor de tipo A a una lista de tipo A
---agregarValor :: a -> [[a]] -> [[a]]
---agregarValor x [] = []
---agregarValor x (y:ys) = ((x:y):agregarValor x ys)
---agregarValor x (y:ys) = ((x:y):agregarValor x ys)
-
+-------------------------------------------------------------
 agregarValor :: a -> [[a]] -> [[a]]
 agregarValor x [] = []
 agregarValor x (y:ys) = ((x:y):agregarValor x ys)
-
+-------------------------------------------------------------
+-- Ejercicio 5.- Tabla de verdad
 tablaVerdad :: [Var] -> [[(Var,Bool)]]
 tablaVerdad [x] = [[(x,True)],[(x,False )]]
 tablaVerdad (x:xs) = (agregarValor (x,True) (tablaVerdad xs)) ++ (agregarValor (x,False) (tablaVerdad xs))
+-------------------------------------------------------------
 
 conjuncionLista1 :: [Bool] -> Bool
 conjuncionLista1 [b] = b
@@ -109,12 +102,12 @@ contiene x (y:ys) = if x == y then True else contiene x ys
 conjunto :: Eq a => [a] -> [a]
 conjunto [] = []
 conjunto (x:xs) = if contiene x xs then conjunto xs else (x:conjunto xs)
+ 
+variablesAux :: Formula -> [Var]
+variablesAux f = []
 
---variables :: Formula -> [Var]
---variables f = []
-
---interpretacion :: Formula -> [(Var,Bool)] -> Bool
---interpretacion f t = True
+variables :: Formula -> [Var]
+variables f = conjunto (variables f)
 
 interpretacionLista :: Formula -> [[(Var,Bool)]] -> [Bool]
 interpretacionLista f [] = []

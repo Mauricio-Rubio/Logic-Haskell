@@ -38,8 +38,8 @@ equivalencia (Neg p) = equivalencia (negar p)
 equivalencia (Prop a) = (Prop a)
 equivalencia (p :=>: q) = (equivalencia p) :&: (negar (equivalencia q))
 equivalencia (p :<=>: q) = (equivalencia (p :=>: q)) :&: (equivalencia (q :=>: p)) 
-equivalencia (p :|: q) = (p :|: q)
-equivalencia (p :&: q) = (p :&: q)
+equivalencia (p :|: q) = (equivalencia p :|: equivalencia q)
+equivalencia (p :&: q) = (equivalencia p :&: equivalencia q)
 -------------------------------------------------------------
 
 -------------------------------------------------------------

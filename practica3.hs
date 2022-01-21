@@ -1,4 +1,4 @@
-data Var = A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z deriving (Show, Eq, Ord) 
+ddata Var = A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z deriving (Show, Eq, Ord) 
 
 data Formula = Prop Var
     |Neg Formula
@@ -66,10 +66,15 @@ implicacion x y = True
 dimplicacion :: Bool -> Bool -> Bool 
 dimplicacion True True = True
 dimplicacion x y = False
--------------------------------------------------------------
+---------------------------------------------------------
+buscarValor :: Var -> [(Var, Bool)] -> Bool
+buscarValor x ((y,b):ys) = if x==y then b else buscarValor x ys
+
+variables :: Formula -> [Var]
+variables f = conjunto (variablesAux f)
 -- Ejercicio 4.- Interpretación
 interpretacion :: Formula -> [(Var,Bool)] -> Bool
-interpretacion (Prop v) xs = interpretacionVariable v xs
+interpretacion (Prop v) t = buscarValor v t
 interpretacion (Neg f) xs = negacion (interpretacion f xs)
 interpretacion (p :&: q) xs = conjuncion (interpretacion p xs) (interpretacion q xs)
 interpretacion (p :|: q) xs = disyuncion (interpretacion p xs) (interpretacion q xs)
@@ -106,8 +111,8 @@ conjunto (x:xs) = if contiene x xs then conjunto xs else (x:conjunto xs)
 --variablesAux :: Formula -> [Var]
 --variablesAux f = []
 
-variables :: Formula -> [Var]
-variables f = conjunto (variablesAux f)
+
+--negacion :: Bool
 
 interpretacionLista :: Formula -> [[(Var,Bool)]] -> [Bool]
 interpretacionLista f [] = []

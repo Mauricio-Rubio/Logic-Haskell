@@ -23,18 +23,18 @@ negar (p :<=>: q) = negar ((p :=>: q) :&: (q :=>: p))
 
 -------------------------------------------------------------
 -- Ejercicio 2.-Variables de la Fórmula (Falta quitar variables repetidas)
---variables :: Formula -> [Var]
---variables (Prop a) = [a]
---variables (p :&: q) = (variables p) ++ (variables q)
---variables (p :|: q) = (variables p) ++ (variables q)
---variables (p :=>: q) = (variables p) ++ (variables q)
---variables (p :<=>: q) = (variables p) ++ (variables q)
+variablesAux :: Formula -> [Var]
+variablesAux (Prop a) = [a]
+variablesAux (p :&: q) = (variablesAux p) ++ (variablesAux q)
+variablesAux (p :|: q) = (variablesAux p) ++ (variablesAux q)
+variablesAux (p :=>: q) = (variablesAux p) ++ (variablesAux q)
+variablesAux (p :<=>: q) = (variablesAux p) ++ (variablesAux q)
 -------------------------------------------------------------
 
 -------------------------------------------------------------
 -- Ejercicio 3.-Equivalencia
 equivalencia :: Formula -> Formula
-equivalencia (Neg p) = negar p
+equivalencia (Neg p) = equivalencia (negar p)
 equivalencia (Prop a) = (Prop a)
 equivalencia (p :=>: q) = (equivalencia p) :&: (negar (equivalencia q))
 equivalencia (p :<=>: q) = (equivalencia (p :=>: q)) :&: (equivalencia (q :=>: p)) 
@@ -103,11 +103,11 @@ conjunto :: Eq a => [a] -> [a]
 conjunto [] = []
 conjunto (x:xs) = if contiene x xs then conjunto xs else (x:conjunto xs)
  
-variablesAux :: Formula -> [Var]
-variablesAux f = []
+--variablesAux :: Formula -> [Var]
+--variablesAux f = []
 
 variables :: Formula -> [Var]
-variables f = conjunto (variables f)
+variables f = conjunto (variablesAux f)
 
 interpretacionLista :: Formula -> [[(Var,Bool)]] -> [Bool]
 interpretacionLista f [] = []
